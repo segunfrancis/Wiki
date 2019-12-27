@@ -38,6 +38,16 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.1.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.1.0'
+
+    // Fuel HTTP Client
+    implementation 'com.github.kittinunf.fuel:fuel:2.2.1'
+    implementation 'com.github.kittinunf.fuel:fuel-android:2.2.1'
+    //implementation 'com.github.kittinunf.fuel:fuel-gson:2.2.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Picasso image loading
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -5,6 +5,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.segunfrancis.wiki.R
+import com.project.segunfrancis.wiki.models.WikiPage
+import com.squareup.picasso.Picasso
 
 /**
  * Created by SegunFrancis
@@ -12,4 +14,13 @@ import com.project.segunfrancis.wiki.R
 class ListItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     private val articleImageView = itemView.findViewById<ImageView>(R.id.result_icon)
     private val titleTextView = itemView.findViewById<TextView>(R.id.result_text)
+    private var currentPage: WikiPage? = null
+
+    fun updateWithPage(page: WikiPage) {
+        if (page.thumbnail != null) {
+            Picasso.get().load(page.thumbnail!!.source).into(articleImageView)
+        }
+        titleTextView.text = page.title
+        currentPage = page
+    }
 }

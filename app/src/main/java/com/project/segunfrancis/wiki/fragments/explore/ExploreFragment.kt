@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.wiki.R
 import com.project.segunfrancis.wiki.activities.SearchActivity
 import com.project.segunfrancis.wiki.adapters.ArticleCardRecyclerAdapter
+import com.project.segunfrancis.wiki.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.fragment_explore.*
 
 class ExploreFragment : Fragment() {
 
+    private val articleProvider: ArticleDataProvider = ArticleDataProvider()
     private lateinit var exploreViewModel: ExploreViewModel
+    private var adapter: ArticleCardRecyclerAdapter = ArticleCardRecyclerAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +36,14 @@ class ExploreFragment : Fragment() {
         return root
     }
 
+    private fun getRandomArticles() {
+        articleProvider.getRandom(15) { wikiResult ->
+            adapter.currentResults.clear()
+            adapter.currentResults.addAll(wikiResult.query!!.pages)
+            activity?.runOnUiThread{adapter.notifyDataSetChanged()}
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         search_card_view.setOnClickListener {
@@ -40,6 +51,6 @@ class ExploreFragment : Fragment() {
             startActivity(searchIntent)
         }
         explore_article_recycler.layoutManager = LinearLayoutManager(requireContext())
-        explore_article_recycler.adapter = ArticleCardRecyclerAdapter()
+        explore_article_recycler.adapter = adapter
     }
 }

@@ -7,10 +7,16 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.SearchView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.wiki.R
+import com.project.segunfrancis.wiki.adapters.ArticleListItemRecyclerAdapter
+import com.project.segunfrancis.wiki.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.activity_search.*
 
 class SearchActivity : AppCompatActivity() {
+
+    private val articleProvider : ArticleDataProvider = ArticleDataProvider()
+    private var adapter: ArticleListItemRecyclerAdapter = ArticleListItemRecyclerAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,6 +24,9 @@ class SearchActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        search_results_recycler.layoutManager = LinearLayoutManager(this)
+        search_results_recycler.adapter = adapter
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
