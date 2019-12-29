@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.wiki.R
 import com.project.segunfrancis.wiki.adapters.ArticleListItemRecyclerAdapter
+import com.project.segunfrancis.wiki.models.WikiResult
 import com.project.segunfrancis.wiki.providers.ArticleDataProvider
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -45,7 +46,14 @@ class SearchActivity : AppCompatActivity() {
         searchView.setIconifiedByDefault(false)
         searchView.requestFocus()
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+                // do the search and update the elements
+                articleProvider.search(query, 0, 20) { wikiResult ->
+                    adapter.currentResults.clear()
+                    adapter.currentResults.addAll(wikiResult.query!!.pages)
+                    runOnUiThread { adapter.notifyDataSetChanged() }
+                }
                 return false
             }
 

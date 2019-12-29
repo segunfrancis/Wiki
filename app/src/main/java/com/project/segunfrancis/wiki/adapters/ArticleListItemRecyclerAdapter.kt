@@ -11,7 +11,7 @@ import com.project.segunfrancis.wiki.models.WikiPage
  * Created by SegunFrancis
  */
 class ArticleListItemRecyclerAdapter : RecyclerView.Adapter<ListItemHolder>(){
-    private val currentResults : ArrayList<WikiPage> = ArrayList()
+    val currentResults : ArrayList<WikiPage> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListItemHolder {
         val listItem = LayoutInflater.from(parent.context).inflate(R.layout.article_list_item, parent, false)

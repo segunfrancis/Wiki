@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,20 +28,29 @@ class ExploreFragment : Fragment() {
     ): View? {
         exploreViewModel =
             ViewModelProviders.of(this).get(ExploreViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_explore, container, false)
         /*val textView: TextView = root.findViewById(R.id.text_home)
         exploreViewModel.text.observe(this, Observer {
             textView.text = it
         })*/
-
-        return root
+        return inflater.inflate(R.layout.fragment_explore, container, false)
     }
 
     private fun getRandomArticles() {
-        articleProvider.getRandom(15) { wikiResult ->
-            adapter.currentResults.clear()
-            adapter.currentResults.addAll(wikiResult.query!!.pages)
-            activity?.runOnUiThread{adapter.notifyDataSetChanged()}
+        try {
+            articleProvider.getRandom(15) { wikiResult ->
+                adapter.currentResults.clear()
+                adapter.currentResults.addAll(wikiResult.query!!.pages)
+                activity?.runOnUiThread {
+                    adapter.notifyDataSetChanged()
+                    refresher.isRefreshing = false
+                }
+            }
+        } catch (e: Exception) {
+            // show alert
+            val builder = AlertDialog.Builder(requireActivity())
+            builder.setMessage(e.message).setTitle("oops!")
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 
@@ -52,5 +62,10 @@ class ExploreFragment : Fragment() {
         }
         explore_article_recycler.layoutManager = LinearLayoutManager(requireContext())
         explore_article_recycler.adapter = adapter
+
+        refresher.setOnRefreshListener {
+            refresher.isRefreshing = true
+        }
+        getRandomArticles()
     }
 }
