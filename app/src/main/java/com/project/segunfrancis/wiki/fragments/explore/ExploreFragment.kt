@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.project.segunfrancis.wiki.R
 import com.project.segunfrancis.wiki.WikiApplication
 import com.project.segunfrancis.wiki.activities.SearchActivity
@@ -68,7 +69,7 @@ class ExploreFragment : Fragment() {
             val searchIntent = Intent(requireContext(), SearchActivity::class.java)
             startActivity(searchIntent)
         }
-        explore_article_recycler.layoutManager = LinearLayoutManager(requireContext())
+        explore_article_recycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         explore_article_recycler.adapter = adapter
 
         refresher.setOnRefreshListener {

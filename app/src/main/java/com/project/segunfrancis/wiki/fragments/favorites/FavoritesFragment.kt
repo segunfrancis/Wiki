@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.project.segunfrancis.wiki.R
 import com.project.segunfrancis.wiki.WikiApplication
 import com.project.segunfrancis.wiki.adapters.ArticleCardRecyclerAdapter
@@ -45,7 +46,7 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        favorites_article_recycler.layoutManager = LinearLayoutManager(requireContext())
+        favorites_article_recycler.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         favorites_article_recycler.adapter = adapter
     }
 
