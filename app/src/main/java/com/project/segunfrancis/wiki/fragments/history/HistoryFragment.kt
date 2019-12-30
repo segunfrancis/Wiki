@@ -2,9 +2,7 @@ package com.project.segunfrancis.wiki.fragments.history
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +12,10 @@ import com.project.segunfrancis.wiki.adapters.ArticleListItemRecyclerAdapter
 import com.project.segunfrancis.wiki.managers.WikiManager
 import com.project.segunfrancis.wiki.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_history.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.noButton
+import org.jetbrains.anko.yesButton
 
 class HistoryFragment : Fragment() {
 
@@ -45,7 +46,7 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         history_article_recycler.layoutManager = LinearLayoutManager(requireContext())
-        history_article_recycler.adapter = ArticleListItemRecyclerAdapter()
+        history_article_recycler.adapter = adapter
     }
 
     override fun onResume() {
@@ -57,5 +58,31 @@ class HistoryFragment : Fragment() {
             adapter.currentResults.addAll(history as ArrayList<WikiPage>)
             requireActivity().runOnUiThread { adapter.notifyDataSetChanged() }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.history_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_clear_history){
+            // show confirmation alert
+            requireActivity().alert("Are you sure you want to clear your history?", "Confirm") {
+                yesButton {
+                    // clear history
+                    adapter.currentResults.clear()
+                    doAsync {
+                        wikiManager?.clearHistory()
+                    }
+                    requireActivity().runOnUiThread { adapter.notifyDataSetChanged() }
+                }
+                noButton {
+                    // do nothing
+                    it.dismiss()
+                }
+            }.show()
+        }
+        return true
     }
 }

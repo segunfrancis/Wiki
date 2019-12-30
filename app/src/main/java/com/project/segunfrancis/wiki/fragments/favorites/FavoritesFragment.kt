@@ -46,7 +46,7 @@ class FavoritesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         favorites_article_recycler.layoutManager = LinearLayoutManager(requireContext())
-        favorites_article_recycler.adapter = ArticleCardRecyclerAdapter()
+        favorites_article_recycler.adapter = adapter
     }
 
     override fun onResume() {
