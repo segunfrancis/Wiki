@@ -10,8 +10,9 @@ import org.jetbrains.anko.db.rowParser
 /**
  * Created by SegunFrancis
  */
-class FavoritesRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
-    private val TABLE_NAME: String = "Favorites"
+
+class HistoryRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
+    private val TABLE_NAME: String = "History"
 
     fun addFavorite(page: WikiPage) {
         databaseHelper.use {
@@ -25,7 +26,7 @@ class FavoritesRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
         }
     }
 
-    fun removeFavoriteById(pageId: Int) {
+    fun removePageById(pageId: Int) {
         databaseHelper.use {
             delete(
                 TABLE_NAME,
@@ -35,14 +36,7 @@ class FavoritesRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
         }
     }
 
-    fun isArticleFavorite(pageId: Int): Boolean {
-        var pages = getAllFavorites()
-        return pages.any { page ->
-            page.pageid == pageId
-        }
-    }
-
-    private fun getAllFavorites(): ArrayList<WikiPage> {
+    private fun getAllHistory(): ArrayList<WikiPage> {
         var pages = ArrayList<WikiPage>()
 
         val articleRowParser =
