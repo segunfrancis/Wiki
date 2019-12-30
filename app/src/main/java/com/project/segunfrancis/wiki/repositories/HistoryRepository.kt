@@ -6,6 +6,7 @@ import com.project.segunfrancis.wiki.models.WikiThumbnail
 import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.rowParser
+import org.jetbrains.anko.db.select
 
 /**
  * Created by SegunFrancis
@@ -49,6 +50,10 @@ class HistoryRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
 
                 pages.add(page)
             }
+
+        databaseHelper.use {
+            select(TABLE_NAME).parseList(articleRowParser)
+        }
         return pages
     }
 }

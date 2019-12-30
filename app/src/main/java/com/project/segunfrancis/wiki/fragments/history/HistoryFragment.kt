@@ -76,6 +76,7 @@ class HistoryFragment : Fragment() {
                         wikiManager?.clearHistory()
                     }
                     requireActivity().runOnUiThread { adapter.notifyDataSetChanged() }
+                    it.dismiss()
                 }
                 noButton {
                     // do nothing
