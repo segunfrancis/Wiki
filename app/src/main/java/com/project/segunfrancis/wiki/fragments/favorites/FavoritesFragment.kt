@@ -12,12 +12,15 @@ import com.project.segunfrancis.wiki.R
 import com.project.segunfrancis.wiki.WikiApplication
 import com.project.segunfrancis.wiki.adapters.ArticleCardRecyclerAdapter
 import com.project.segunfrancis.wiki.managers.WikiManager
+import com.project.segunfrancis.wiki.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_favorites.*
+import org.jetbrains.anko.doAsync
 
 class FavoritesFragment : Fragment() {
 
     private var wikiManager: WikiManager? = null
     private lateinit var favoritesViewModel: FavoritesViewModel
+    private val adapter: ArticleCardRecyclerAdapter = ArticleCardRecyclerAdapter()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,5 +47,16 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         favorites_article_recycler.layoutManager = LinearLayoutManager(requireContext())
         favorites_article_recycler.adapter = ArticleCardRecyclerAdapter()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        doAsync {
+            val favoritesArticles = wikiManager!!.getFavorites()
+            adapter.currentResults.clear()
+            adapter.currentResults.addAll(favoritesArticles as ArrayList<WikiPage>)
+            requireActivity().runOnUiThread { adapter.notifyDataSetChanged() }
+        }
     }
 }

@@ -12,12 +12,15 @@ import com.project.segunfrancis.wiki.R
 import com.project.segunfrancis.wiki.WikiApplication
 import com.project.segunfrancis.wiki.adapters.ArticleListItemRecyclerAdapter
 import com.project.segunfrancis.wiki.managers.WikiManager
+import com.project.segunfrancis.wiki.models.WikiPage
 import kotlinx.android.synthetic.main.fragment_history.*
+import org.jetbrains.anko.doAsync
 
 class HistoryFragment : Fragment() {
 
     private var wikiManager: WikiManager? = null
     private lateinit var historyViewModel: HistoryViewModel
+    private val adapter = ArticleListItemRecyclerAdapter()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -43,5 +46,16 @@ class HistoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         history_article_recycler.layoutManager = LinearLayoutManager(requireContext())
         history_article_recycler.adapter = ArticleListItemRecyclerAdapter()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        doAsync {
+            val history = wikiManager!!.getHistory()
+            adapter.currentResults.clear()
+            adapter.currentResults.addAll(history as ArrayList<WikiPage>)
+            requireActivity().runOnUiThread { adapter.notifyDataSetChanged() }
+        }
     }
 }
