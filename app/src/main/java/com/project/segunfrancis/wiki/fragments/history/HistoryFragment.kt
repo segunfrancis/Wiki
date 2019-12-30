@@ -23,6 +23,11 @@ class HistoryFragment : Fragment() {
     private lateinit var historyViewModel: HistoryViewModel
     private val adapter = ArticleListItemRecyclerAdapter()
 
+    // Makes parent fragment display option menu
+    init {
+        setHasOptionsMenu(true)
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
