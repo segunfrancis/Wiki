@@ -36,7 +36,7 @@ class HistoryRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
         }
     }
 
-    private fun getAllHistory(): ArrayList<WikiPage> {
+    fun getAllHistory(): ArrayList<WikiPage> {
         var pages = ArrayList<WikiPage>()
 
         val articleRowParser =

@@ -42,7 +42,7 @@ class FavoritesRepository(val databaseHelper: ArticleDatabaseOpenHelper) {
         }
     }
 
-    private fun getAllFavorites(): ArrayList<WikiPage> {
+    fun getAllFavorites(): ArrayList<WikiPage> {
         var pages = ArrayList<WikiPage>()
 
         val articleRowParser =
