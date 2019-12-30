@@ -8,16 +8,21 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.google.gson.Gson
 import com.project.segunfrancis.wiki.R
+import com.project.segunfrancis.wiki.WikiApplication
+import com.project.segunfrancis.wiki.managers.WikiManager
 import com.project.segunfrancis.wiki.models.WikiPage
 import kotlinx.android.synthetic.main.activity_article_detail.*
 
 class ArticleDetailActivity : AppCompatActivity() {
 
+    private var wikiManager: WikiManager? = null
     private var currentPage: WikiPage? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_article_detail)
+
+        wikiManager = (applicationContext as WikiApplication).wikiManager
 
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -34,6 +39,8 @@ class ArticleDetailActivity : AppCompatActivity() {
             }
         }
         article_detail_webview.loadUrl(currentPage!!.fullurl)
+
+        wikiManager?.addHistory(currentPage!!)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
