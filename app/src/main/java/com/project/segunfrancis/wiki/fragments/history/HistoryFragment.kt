@@ -32,12 +32,11 @@ class HistoryFragment : Fragment() {
     ): View? {
         historyViewModel =
             ViewModelProviders.of(this).get(HistoryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_history, container, false)
         /*val textView: TextView = root.findViewById(R.id.text_notifications)
         historyViewModel.text.observe(this, Observer {
             textView.text = it
         })*/
-        return root
+        return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
