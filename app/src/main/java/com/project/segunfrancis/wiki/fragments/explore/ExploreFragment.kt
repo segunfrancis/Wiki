@@ -1,5 +1,6 @@
 package com.project.segunfrancis.wiki.fragments.explore
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,16 +11,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.wiki.R
+import com.project.segunfrancis.wiki.WikiApplication
 import com.project.segunfrancis.wiki.activities.SearchActivity
 import com.project.segunfrancis.wiki.adapters.ArticleCardRecyclerAdapter
-import com.project.segunfrancis.wiki.providers.ArticleDataProvider
+import com.project.segunfrancis.wiki.managers.WikiManager
 import kotlinx.android.synthetic.main.fragment_explore.*
 
 class ExploreFragment : Fragment() {
 
-    private val articleProvider: ArticleDataProvider = ArticleDataProvider()
+    private var wikiManager: WikiManager? = null
     private lateinit var exploreViewModel: ExploreViewModel
     private var adapter: ArticleCardRecyclerAdapter = ArticleCardRecyclerAdapter()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        wikiManager = (activity?.applicationContext as WikiApplication).wikiManager
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +45,7 @@ class ExploreFragment : Fragment() {
 
     private fun getRandomArticles() {
         try {
-            articleProvider.getRandom(15) { wikiResult ->
+            wikiManager?.getRandom(15) { wikiResult ->
                 adapter.currentResults.clear()
                 adapter.currentResults.addAll(wikiResult.query!!.pages)
                 activity?.runOnUiThread {

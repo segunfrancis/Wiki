@@ -1,5 +1,6 @@
 package com.project.segunfrancis.wiki.fragments.favorites
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.segunfrancis.wiki.R
+import com.project.segunfrancis.wiki.WikiApplication
 import com.project.segunfrancis.wiki.adapters.ArticleCardRecyclerAdapter
-import com.project.segunfrancis.wiki.adapters.ArticleListItemRecyclerAdapter
+import com.project.segunfrancis.wiki.managers.WikiManager
 import kotlinx.android.synthetic.main.fragment_favorites.*
 
 class FavoritesFragment : Fragment() {
 
+    private var wikiManager: WikiManager? = null
     private lateinit var favoritesViewModel: FavoritesViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        wikiManager = (activity?.applicationContext as WikiApplication).wikiManager
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,13 +32,12 @@ class FavoritesFragment : Fragment() {
     ): View? {
         favoritesViewModel =
             ViewModelProviders.of(this).get(FavoritesViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_favorites, container, false)
         /*val textView: TextView = root.findViewById(R.id.text_dashboard)
         favoritesViewModel.text.observe(this, Observer {
             textView.text = it
         })*/
 
-        return root
+        return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
